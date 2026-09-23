@@ -1,0 +1,7 @@
+'use client';
+import {useState} from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import {Building2,ArrowUpRight} from 'lucide-react';
+import {projectTypes,type Project} from '@/data/projects';
+export function ProjectFilter({projects}:{projects:Project[]}){const [type,setType]=useState('Tümü');const selected=projects.filter(p=>type==='Tümü'||p.type===type);return <><div className="filters" aria-label="Proje türü">{['Tümü',...projectTypes].map(t=><button className="filter" key={t} aria-pressed={type===t} onClick={()=>setType(t)}>{t}</button>)}</div><div aria-live="polite">{selected.length?<div className="article-grid mt-8">{selected.map(p=><Link key={p.slug} href={`/projeler/${p.slug}`} className="article-card"><Image src={p.image} width={640} height={420} sizes="(max-width:760px) 100vw, 33vw" alt={p.imageAlt}/><p className="eyebrow mt-6">{p.type} · {p.location}</p><h2>{p.title}</h2><p>{p.operation}</p><p>{p.buildingType}</p><span className="card-link">Projeyi incele <ArrowUpRight size={18}/></span></Link>)}</div>:<div className="empty-state"><Building2 size={39} strokeWidth={1.3}/><h2>{type==='Tümü'?'Proje paylaşımlarımız hazırlanıyor.':`${type} projeleri henüz paylaşılmadı.`}</h2><p>Yayın izni ve görselleri tamamlanan uygulamalarımızı burada paylaşacağız. Yapınızın ihtiyacını değerlendirmek için bizimle iletişime geçebilirsiniz.</p><Link className="button" href="/servis-talebi?tur=Teklif">Projenizi konuşalım <ArrowUpRight size={18}/></Link></div>}</div></>}

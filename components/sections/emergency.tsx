@@ -1,0 +1,4 @@
+import {ArrowUpRight,Phone,MessageCircle,Headphones} from 'lucide-react';
+import Link from 'next/link';
+import {phoneHref,whatsappHref} from '@/lib/site-config';
+export function Emergency(){return <section className="emergency"><div className="container emergency-inner"><div className="emergency-title"><Headphones size={38} strokeWidth={1.3}/><div><h2>Asansörünüz arızalandı mı?</h2><p>Teknik servis ekibimizle iletişime geçin.</p></div></div><div className="button-row">{phoneHref&&<a className="button button-light" href={phoneHref}><Phone size={18}/>Bizi arayın</a>}{whatsappHref&&<a className="button button-light" href={whatsappHref}><MessageCircle size={18}/>WhatsApp</a>}<Link className="button button-white" href="/servis-talebi?tur=Arıza">Servis Talebi <ArrowUpRight size={18}/></Link></div></div></section>}

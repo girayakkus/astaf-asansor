@@ -1,0 +1,10 @@
+import {test,afterEach} from 'node:test';
+import assert from 'node:assert/strict';
+import {company} from '../lib/site-config';
+import {pageMeta,organizationSchema} from '../lib/seo';
+import sitemap from '../app/sitemap';
+import robots from '../app/robots';
+const original={url:company.url,indexing:company.indexing};
+afterEach(()=>Object.assign(company,original));
+test('preview emits no invented canonical or sitemap origin',()=>{company.url='';company.indexing=false;assert.equal(pageMeta('Test','Description','/test').alternates,undefined);assert.deepEqual(sitemap(),[]);assert.deepEqual(robots().rules,{userAgent:'*',disallow:'/'});assert.equal(organizationSchema().telephone,undefined)});
+test('configured origin creates all published URLs without placeholders',()=>{company.url='https://example.com';company.indexing=true;const entries=sitemap();assert.equal(entries.length,20);assert.equal(new Set(entries.map(e=>e.url)).size,entries.length);assert.ok(entries.some(e=>e.url==='https://example.com/hizmetler/asansor-bakimi'));assert.ok(entries.some(e=>e.url==='https://example.com/blog/asansor-revizyonu-nedir'));assert.ok(entries.every(e=>!e.url.includes('/istanbul/')&&!e.url.includes('/projeler/')));assert.equal(robots().sitemap,'https://example.com/sitemap.xml');assert.equal(pageMeta('Test','Description','/test').alternates?.canonical,'https://example.com/test')});

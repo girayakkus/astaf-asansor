@@ -1,0 +1,8 @@
+import {Suspense} from 'react';
+import {Check} from 'lucide-react';
+import {PageHero} from '@/components/page-hero';
+import {InquiryForm} from '@/components/inquiry-form';
+import {formsReady} from '@/lib/forms';
+import {pageMeta} from '@/lib/seo';
+export const metadata=pageMeta('Servis ve Teklif Talebi','Asansör bakım, arıza, montaj, revizyon, ray ve kapı sistemleri için servis veya teklif talebi oluşturun.','/servis-talebi');
+export default function ServiceRequest(){return <><PageHero eyebrow="SERVİS VE TEKLİF" title="İhtiyacınızı bize anlatın." description="Bina ve asansör bilgilerini paylaşarak talebinizi oluşturabilirsiniz. Kapsam, teknik değerlendirme sonrasında netleştirilir." crumbs={[{label:'Servis Talebi',href:'/servis-talebi'}]}/><section className="section container contact-grid"><div className="contact-info"><h2>Doğru bilgi,<br/>doğru başlangıç.</h2><p>Talep açıklamasına durak sayısını, varsa sistemin yaşını ve yaşadığınız sorunu ekleyebilirsiniz.</p><div className="principles">{[['01 · Talebinizi paylaşın','Hizmet türünü ve bina bilgilerini belirtin.'],['02 · Kapsamı belirleyelim','Mevcut sisteminize uygun değerlendirmeyi planlayalım.'],['03 · Sonraki adımı netleştirelim','Keşif ve uygulama seçeneklerini birlikte ele alalım.']].map(([t,d])=><div key={t}><Check size={18}/><div><h3>{t}</h3><p>{d}</p></div></div>)}</div><div className="note-box">Kabinde mahsur kalma durumunda alarm / haberleşme sistemini kullanın. Kapıları zorlamayın; kendi başınıza çıkmaya çalışmayın. Acil tehlike veya sağlık sorunu varsa 112’yi arayın.</div></div><Suspense fallback={<p>Form yükleniyor…</p>}><InquiryForm kind="service" ready={formsReady()}/></Suspense></section></>}

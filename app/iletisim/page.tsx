@@ -1,0 +1,9 @@
+import {Suspense} from 'react';
+import {Phone,Mail,MapPin,Clock,MessageCircle} from 'lucide-react';
+import {PageHero} from '@/components/page-hero';
+import {InquiryForm} from '@/components/inquiry-form';
+import {company,phoneHref,whatsappHref} from '@/lib/site-config';
+import {formsReady} from '@/lib/forms';
+import {pageMeta} from '@/lib/seo';
+export const metadata=pageMeta('İletişim','ASTAF Asansör ile iletişim kurun. İstanbul’da asansör bakım, montaj ve revizyon ihtiyaçlarınız için bilgi ve teklif talep edin.','/iletisim');
+export default function Contact(){return <><PageHero eyebrow="BİRLİKTE PLANLAYALIM" title="Bir görüşmeyle başlayalım." description="Yeni bir kurulum, düzenli bakım ya da mevcut sisteminizdeki bir sorun. İhtiyacınızı paylaşın, sonraki adımı belirleyelim." crumbs={[{label:'İletişim',href:'/iletisim'}]}/><section className="section container contact-grid"><div className="contact-info"><h2>İletişim bilgileri</h2><p>İstanbul’daki asansör ihtiyaçlarınız için bize ulaşabilirsiniz.</p><div className="contact-item"><h3><Phone size={18}/>Telefon</h3>{phoneHref?<a href={phoneHref}>{company.phone}</a>:<p>İletişim numarası yakında paylaşılacak.</p>}</div><div className="contact-item"><h3><MessageCircle size={18}/>WhatsApp</h3>{whatsappHref?<a href={whatsappHref}>WhatsApp üzerinden yazın</a>:<p>WhatsApp hattı yakında paylaşılacak.</p>}</div><div className="contact-item"><h3><Mail size={18}/>E-posta</h3>{company.email?<a href={`mailto:${company.email}`}>{company.email}</a>:<p>E-posta adresi yakında paylaşılacak.</p>}</div><div className="contact-item"><h3><MapPin size={18}/>Adres</h3><p>{company.address||'Açık adres bilgisi yakında paylaşılacak.'}</p></div><div className="contact-item"><h3><Clock size={18}/>Çalışma saatleri</h3><p>{company.workingHours||'Çalışma saatleri yakında paylaşılacak.'}</p></div></div><Suspense fallback={<p>Form yükleniyor…</p>}><InquiryForm kind="contact" ready={formsReady()}/></Suspense></section></>}
