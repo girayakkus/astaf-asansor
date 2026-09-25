@@ -1,2 +1,2 @@
 import {legalDocuments} from '@/data/legal';
-export function formsReady(){return Boolean(process.env.FORM_DELIVERY_URL&&process.env.FORM_DELIVERY_TOKEN&&process.env.TURNSTILE_SECRET_KEY&&process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY&&process.env.LEGAL_APPROVED==='true'&&Object.values(legalDocuments).every(p=>p.approved&&p.sections.length>0))}
+export function formsReady(){return Boolean(((process.env.RESEND_API_KEY&&process.env.FORM_EMAIL_FROM)||(process.env.FORM_DELIVERY_URL&&process.env.FORM_DELIVERY_TOKEN))&&process.env.TURNSTILE_SECRET_KEY&&process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY&&process.env.LEGAL_APPROVED==='true'&&Object.values(legalDocuments).every(p=>p.approved&&p.sections.length>0))}

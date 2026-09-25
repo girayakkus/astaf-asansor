@@ -1,3 +1,4 @@
+import {sendFormEmail} from '@/lib/form-email';
 import {inquirySchema} from '@/lib/validation';
 import {formsReady} from '@/lib/forms';
 export const runtime='nodejs';
@@ -18,8 +19,12 @@ export async function POST(request:Request){
   const result=await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({secret:process.env.TURNSTILE_SECRET_KEY!,response:data.turnstileToken}),signal:AbortSignal.timeout(10000)});
   const verification=await result.json();
   if(!result.ok||!verification.success||verification.action!=='inquiry'||verification.hostname!==new URL(allowed).hostname)return respond(400,'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.');
-  const destination=new URL(process.env.FORM_DELIVERY_URL!);if(destination.protocol!=='https:')return respond(503,'Gönderim servisi hazır değil.');
   const reference=crypto.randomUUID();
+  if(process.env.RESEND_API_KEY){
+   if(!await sendFormEmail(data,reference))return respond(502,'Talebiniz gönderilemedi. Lütfen daha sonra tekrar deneyin.');
+   return respond(200,'Talebiniz e-posta gönderim servisine iletildi.',{reference});
+  }
+  const destination=new URL(process.env.FORM_DELIVERY_URL!);if(destination.protocol!=='https:')return respond(503,'Gönderim servisi hazır değil.');
   const {website,startedAt,turnstileToken,consent,...fields}=data;
   void website;void startedAt;void turnstileToken;
   const delivery=await fetch(destination,{method:'POST',redirect:'error',headers:{'Content-Type':'application/json',Authorization:`Bearer ${process.env.FORM_DELIVERY_TOKEN}`,'Idempotency-Key':reference},body:JSON.stringify({reference,...fields,privacyAcknowledged:consent,receivedAt:new Date().toISOString()}),signal:AbortSignal.timeout(15000)});

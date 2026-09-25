@@ -4,8 +4,8 @@ export const company = {
   url: process.env.NEXT_PUBLIC_SITE_URL || '',
   phone: '+905300630752', // TODO: +90 ile gerçek telefon
   whatsapp: '+905300630752', // TODO: Ülke koduyla yalnızca rakamlar
-  email: 'gryakkus@gmail.com', // TODO: Gerçek e-posta
-  address: '', // TODO: Açık adres
+  email: 'info@astafasansor.com', // TODO: Gerçek e-posta
+  address: 'İstanbul Şişli', // TODO: Açık adres
   workingHours: '09.00-18.00', // TODO: Doğrulanmış çalışma saatleri
   openingHoursSpecification: [] as Record<string, unknown>[],
   socialLinks: [] as { label: string; url: string }[],
